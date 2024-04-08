@@ -16,6 +16,7 @@ class Game:
 
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
+    RED = (255, 0, 0)
 
     PADDLE_WIDTH, PADDLE_HEIGHT  = 20, 100
     BALL_RADIUS = 10
@@ -40,13 +41,28 @@ class Game:
         self.right_hits = 0
         self.window = window
 
-    def draw(self): 
-        self.window.fill(self.BLACK)
 
+    def draw_score(self):
         left_score_text = self.SCORE_FONT.render(f"{self.left_score}", 1, self.WHITE)
         right_score_text = self.SCORE_FONT.render(f"{self.right_score}", 1, self.WHITE)
+        
         self.window.blit(left_score_text, (self.WIDTH//4, left_score_text.get_width()//2))
         self.window.blit(right_score_text, (self.WIDTH//4 * 3, right_score_text.get_width()//2))
+
+    def draw_hits(self):
+        left_hits_text = self.SCORE_FONT.render(f"{self.left_hits}", 1, self.RED)
+        right_hits_text = self.SCORE_FONT.render(f"{self.right_hits}", 1, self.RED)
+
+        self.window.blit(left_hits_text, (self.WIDTH//4, self.HEIGHT - left_hits_text.get_width() * 3 ))
+        self.window.blit(right_hits_text, (self.WIDTH//4 * 3, self.HEIGHT - right_hits_text.get_width() * 3 ))
+
+    def draw(self, score = True, hits = True): 
+        self.window.fill(self.BLACK)
+
+        if score:
+            self.draw_score()
+        if hits:
+            self.draw_hits()
 
         for paddle in self.Paddles:
             paddle.draw(self.window)
